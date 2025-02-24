@@ -205,3 +205,21 @@ strong {
     padding: 0.5rem;
   }
 }
+.error-message {
+    color: var(--error-red, #ff3366);
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem;
+    text-align: center;
+    margin: 1rem 0;
+    padding: 0.5rem;
+    background: rgba(255, 51, 102, 0.1);
+    border: 1px solid var(--error-red, #ff3366);
+    border-radius: 5px;
+    text-shadow: 0 0 5px var(--error-red, #ff3366);
+    animation: shake 0.5s ease;
+    display: none; /* Hide by default */
+}
+
+.error-message.active {
+    display: block; /* Show when active */
+}
