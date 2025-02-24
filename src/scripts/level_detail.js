@@ -2,7 +2,9 @@ import '../styles/level_detail.css';
 import { getToken } from './auth.js';
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000';
+// const API_URL = 'http://127.0.0.1:8000';
+const API_URL = 'https://solo-leveling-api-ivory.vercel.app';
+
 
 const levelDetailHtml = `
 <div class="level-detail-container" id="level-detail-container">
@@ -21,19 +23,24 @@ const levelDetailHtml = `
 
 async function fetchLevelDetail(levelId) {
     const token = getToken();
+    console.log('Token:', token); // Check if token exists
     if (!token) {
+        console.log('No token found, redirecting to login');
         window.location.pathname = '/';
         return null;
     }
 
     try {
+        console.log('Fetching level detail for ID:', levelId);
         const response = await axios.get(`${API_URL}/api/main/levels/${levelId}/`, {
             headers: {
                 'Authorization': `Token ${token}`
             }
         });
+        console.log('API Response:', response.data); // Log the raw data
         return response.data;
     } catch (error) {
+        console.error('Failed to fetch level details:', error.response ? error.response.data : error.message);
         return null;
     }
 }
@@ -53,16 +60,21 @@ export function loadLevelDetailPage() {
     const backBtn = document.getElementById('back-btn');
 
     const path = window.location.pathname;
+    console.log('Current Path:', path); // Log the full path
     const levelId = path.split('/levels/')[1];
+    console.log('Extracted Level ID:', levelId); // Check if ID is parsed correctly
 
     if (!levelId || isNaN(levelId)) {
+        console.log('Invalid level ID');
         errorMessage.textContent = 'Invalid level ID';
         errorMessage.classList.add('active');
         return;
     }
 
     fetchLevelDetail(levelId).then(level => {
+        console.log('Fetched Level Data:', level); // Log the processed data
         if (!level) {
+            console.log('No level data returned');
             errorMessage.textContent = 'Failed to load level details. Please try again.';
             errorMessage.classList.add('active');
             return;
@@ -76,6 +88,7 @@ export function loadLevelDetailPage() {
         quests.textContent = level.quests && level.quests.length ? level.quests.join(', ') : 'None';
         tips.textContent = level.tips && level.tips.length ? level.tips.join(', ') : 'None';
     }).catch(err => {
+        console.error('Unexpected error in promise chain:', err);
         errorMessage.textContent = 'An unexpected error occurred.';
         errorMessage.classList.add('active');
     });
