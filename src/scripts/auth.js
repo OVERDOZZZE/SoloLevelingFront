@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000';
+// const API_URL = 'http://localhost:8000';
+const API_URL = 'https://solo-leveling-api-ivory.vercel.app';
 
 function setToken(token) {
     localStorage.setItem('token', token);

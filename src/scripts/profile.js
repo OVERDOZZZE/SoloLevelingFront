@@ -2,7 +2,9 @@ import '../styles/profile.css';
 import { getToken, removeToken } from './auth.js';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000';
+// const API_URL = 'http://localhost:8000';
+const API_URL = 'https://solo-leveling-api-ivory.vercel.app';
+
 
 const profileHtml = `
 <div class="profile-container" id="profile-container">
