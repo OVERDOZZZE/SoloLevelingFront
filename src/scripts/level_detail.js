@@ -2,9 +2,7 @@ import '../styles/level_detail.css';
 import { getToken } from './auth.js';
 import axios from 'axios';
 
-// const API_URL = 'http://127.0.0.1:8000';
-const API_URL = 'https://solo-leveling-api-ivory.vercel.app';
-
+const API_URL = 'http://127.0.0.1:8000'; // No trailing slash here
 
 const levelDetailHtml = `
 <div class="level-detail-container" id="level-detail-container">
@@ -23,7 +21,6 @@ const levelDetailHtml = `
 
 async function fetchLevelDetail(levelId) {
     const token = getToken();
-    console.log('Token:', token); // Check if token exists
     if (!token) {
         console.log('No token found, redirecting to login');
         window.location.pathname = '/';
@@ -31,16 +28,18 @@ async function fetchLevelDetail(levelId) {
     }
 
     try {
-        console.log('Fetching level detail for ID:', levelId);
-        const response = await axios.get(`${API_URL}/api/main/levels/${levelId}/`, {
+        // Ensure no double slashes by constructing URL carefully
+        const url = `${API_URL}/api/main/levels/${levelId}`; // Removed trailing slash after ${levelId}
+        console.log('Fetching from:', url);
+        const response = await axios.get(url, {
             headers: {
                 'Authorization': `Token ${token}`
             }
         });
-        console.log('API Response:', response.data); // Log the raw data
+        console.log('API Response:', response.data);
         return response.data;
     } catch (error) {
-        console.error('Failed to fetch level details:', error.response ? error.response.data : error.message);
+        console.error('Fetch Error:', error.response ? error.response.data : error.message);
         return null;
     }
 }
@@ -48,52 +47,36 @@ async function fetchLevelDetail(levelId) {
 export function loadLevelDetailPage() {
     document.getElementById('root').innerHTML = levelDetailHtml;
 
-    const levelDetailContainer = document.getElementById('level-detail-container');
-    const errorMessage = document.getElementById('error-message');
-    const levelImage = document.getElementById('level-image');
-    const levelNumber = document.getElementById('level-number');
-    const levelName = document.getElementById('level-name');
-    const requiredExp = document.getElementById('required-exp');
-    const achievement = document.getElementById('achievement');
-    const quests = document.getElementById('quests');
-    const tips = document.getElementById('tips');
-    const backBtn = document.getElementById('back-btn');
-
     const path = window.location.pathname;
-    console.log('Current Path:', path); // Log the full path
-    const levelId = path.split('/levels/')[1];
-    console.log('Extracted Level ID:', levelId); // Check if ID is parsed correctly
+    console.log('Current Path:', path);
+    const levelId = path.split('/levels/')[1]?.replace(/\/$/, ''); // Remove trailing slash if present
+    console.log('Extracted Level ID:', levelId);
 
     if (!levelId || isNaN(levelId)) {
         console.log('Invalid level ID');
-        errorMessage.textContent = 'Invalid level ID';
-        errorMessage.classList.add('active');
+        document.getElementById('error-message').textContent = 'Invalid level ID';
+        document.getElementById('error-message').classList.add('active');
         return;
     }
 
     fetchLevelDetail(levelId).then(level => {
-        console.log('Fetched Level Data:', level); // Log the processed data
+        console.log('Fetched Level Data:', level);
         if (!level) {
-            console.log('No level data returned');
-            errorMessage.textContent = 'Failed to load level details. Please try again.';
-            errorMessage.classList.add('active');
+            document.getElementById('error-message').textContent = 'Failed to load level details. Please try again.';
+            document.getElementById('error-message').classList.add('active');
             return;
         }
 
-        levelImage.src = level.level_image || 'default-image-url.jpg';
-        levelNumber.textContent = level.level_number || 'Not set';
-        levelName.textContent = level.name || 'Unnamed';
-        requiredExp.textContent = level.required_exp || '0';
-        achievement.textContent = level.achievement ? level.achievement : 'None';
-        quests.textContent = level.quests && level.quests.length ? level.quests.join(', ') : 'None';
-        tips.textContent = level.tips && level.tips.length ? level.tips.join(', ') : 'None';
-    }).catch(err => {
-        console.error('Unexpected error in promise chain:', err);
-        errorMessage.textContent = 'An unexpected error occurred.';
-        errorMessage.classList.add('active');
+        document.getElementById('level-image').src = level.level_image || 'default-image-url.jpg';
+        document.getElementById('level-number').textContent = level.level_number || 'Not set';
+        document.getElementById('level-name').textContent = level.name || 'Unnamed';
+        document.getElementById('required-exp').textContent = level.required_exp || '0';
+        document.getElementById('achievement').textContent = level.achievement ? level.achievement : 'None';
+        document.getElementById('quests').textContent = level.quests && level.quests.length ? level.quests.join(', ') : 'None';
+        document.getElementById('tips').textContent = level.tips && level.tips.length ? level.tips.join(', ') : 'None';
     });
 
-    backBtn.addEventListener('click', () => {
+    document.getElementById('back-btn').addEventListener('click', () => {
         window.location.pathname = '/levels';
     });
 }
