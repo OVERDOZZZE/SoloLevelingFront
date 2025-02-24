@@ -34,7 +34,6 @@ async function fetchLevelDetail(levelId) {
         });
         return response.data;
     } catch (error) {
-        console.error('Failed to fetch level details:', error);
         return null;
     }
 }
@@ -53,8 +52,10 @@ export function loadLevelDetailPage() {
     const tips = document.getElementById('tips');
     const backBtn = document.getElementById('back-btn');
 
-    const levelId = window.location.pathname.split('/levels/')[1];
-    if (!levelId) {
+    const path = window.location.pathname;
+    const levelId = path.split('/levels/')[1];
+
+    if (!levelId || isNaN(levelId)) {
         errorMessage.textContent = 'Invalid level ID';
         errorMessage.classList.add('active');
         return;
@@ -74,6 +75,9 @@ export function loadLevelDetailPage() {
         achievement.textContent = level.achievement ? level.achievement : 'None';
         quests.textContent = level.quests && level.quests.length ? level.quests.join(', ') : 'None';
         tips.textContent = level.tips && level.tips.length ? level.tips.join(', ') : 'None';
+    }).catch(err => {
+        errorMessage.textContent = 'An unexpected error occurred.';
+        errorMessage.classList.add('active');
     });
 
     backBtn.addEventListener('click', () => {
