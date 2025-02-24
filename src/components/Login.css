@@ -1,0 +1,246 @@
+/* Login.css */
+:root {
+  --neon-blue: #00f6ff;
+  --dark-blue: #0d1b2a;
+  --darker-blue: #1b263b;
+  --neon-glow: #00f6ff66;
+  --text-grey: #e0e1dd;
+  --error-red: #ff3366;
+}
+
+body {
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: radial-gradient(circle at center, rgba(0, 246, 255, 0.1) 0%, black 70%);
+}
+
+.login-form {
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+  background: var(--dark-blue);
+  border: 2px solid var(--neon-blue);
+  border-radius: 10px;
+  box-shadow: 0 0 20px var(--neon-glow);
+  animation: neonFade 2s infinite alternate;
+}
+
+h2 {
+  color: var(--neon-blue);
+  text-align: center;
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px var(--neon-blue);
+  margin: 0 0 2rem 0; /* Standardized margin */
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  color: var(--neon-blue);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 5px var(--neon-glow);
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--darker-blue);
+  border: 1px solid var(--neon-blue);
+  border-radius: 5px;
+  color: var(--text-grey);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1rem;
+  box-shadow: inset 0 0 5px var(--neon-glow);
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* Ensure padding doesn’t overflow */
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #00ccff;
+  box-shadow: 0 0 15px var(--neon-glow);
+}
+
+.input-field::placeholder {
+  color: #778da9;
+  opacity: 0.7;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--neon-blue);
+  border: none;
+  color: var(--dark-blue);
+  padding: 0.3rem 0.8rem;
+  border-radius: 3px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-password:hover {
+  background: #00ccff;
+  box-shadow: 0 0 10px var(--neon-glow);
+}
+
+.login-button {
+  display: block; /* Ensure full width alignment */
+  width: 100%;
+  padding: 1rem;
+  background: var(--neon-blue);
+  border: none;
+  border-radius: 5px;
+  color: var(--dark-blue);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px var(--neon-glow);
+  margin: 1rem 0; /* Consistent spacing */
+}
+
+.login-button:hover {
+  background: #00ccff;
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px var(--neon-glow);
+}
+
+.error-message {
+  color: var(--error-red);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1rem;
+  text-align: center;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background: rgba(255, 51, 102, 0.1);
+  border: 1px solid var(--error-red);
+  border-radius: 5px;
+  text-shadow: 0 0 5px var(--error-red);
+  animation: shake 0.5s ease;
+}
+
+.register-link {
+  text-align: center;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--text-grey);
+  margin: 0; /* Remove extra top margin */
+}
+
+.register-link a {
+  color: var(--neon-blue);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.register-link a:hover {
+  text-shadow: 0 0 10px var(--neon-glow);
+  text-decoration: underline;
+}
+
+/* Animations */
+@keyframes neonFade {
+  from {
+    box-shadow: 0 0 10px var(--neon-glow);
+  }
+  to {
+    box-shadow: 0 0 20px var(--neon-glow);
+  }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .login-container {
+    padding: 1.5rem;
+  }
+
+  .login-form {
+    padding: 1.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .input-field {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+
+  .login-button {
+    padding: 0.9rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 1rem;
+  }
+
+  .login-form {
+    padding: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .input-field {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .toggle-password {
+    padding: 0.2rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .login-button {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+
+  .error-message {
+    font-size: 0.9rem;
+  }
+
+  .register-link {
+    font-size: 0.8rem;
+  }
+}
