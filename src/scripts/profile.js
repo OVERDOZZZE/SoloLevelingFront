@@ -9,6 +9,7 @@ const API_URL = 'https://solo-leveling-api-ivory.vercel.app';
 const profileHtml = `
 <div class="profile-container" id="profile-container">
     <h2>Profile</h2>
+    <p id="error-message" class="error-message"></p>
     <img id="user-image" src="" alt="Profile" class="profile-image">
     <p><strong>Username:</strong> <span id="username"></span></p>
     <p><strong>Email:</strong> <span id="email"></span></p>
@@ -18,6 +19,7 @@ const profileHtml = `
     <div id="level-container" class="level-container">
         <p id="level-text" class="level-text"><strong>Level:</strong> <span id="level"></span></p>
     </div>
+    <button id="levels-btn" class="login-button">View Levels</button>
     <button id="logout-btn" class="login-button">Logout</button>
 </div>
 `;
@@ -48,6 +50,7 @@ export function loadProfilePage() {
     document.getElementById('root').innerHTML = profileHtml;
 
     const profileContainer = document.getElementById('profile-container');
+    const errorMessage = document.getElementById('error-message');
     const userImage = document.getElementById('user-image');
     const usernameSpan = document.getElementById('username');
     const emailSpan = document.getElementById('email');
@@ -56,6 +59,7 @@ export function loadProfilePage() {
     const expSpan = document.getElementById('exp');
     const levelContainer = document.getElementById('level-container');
     const levelText = document.getElementById('level');
+    const levelsBtn = document.getElementById('levels-btn');
     const logoutBtn = document.getElementById('logout-btn');
 
     fetchProfile().then(user => {
@@ -65,11 +69,8 @@ export function loadProfilePage() {
         }
 
         if (user.error) {
-            const errorMessage = document.createElement('p');
-            errorMessage.id = 'error-message';
-            errorMessage.className = 'error-message';
             errorMessage.textContent = 'Failed to load profile. Please try again.';
-            profileContainer.insertBefore(errorMessage, profileContainer.firstChild.nextSibling);
+            errorMessage.classList.add('active');
             return;
         }
 
@@ -92,6 +93,10 @@ export function loadProfilePage() {
         } else {
             levelText.textContent = 'Not set';
         }
+    });
+
+    levelsBtn.addEventListener('click', () => {
+        window.location.pathname = '/levels';
     });
 
     logoutBtn.addEventListener('click', () => {
