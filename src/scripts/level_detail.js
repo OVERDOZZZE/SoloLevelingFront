@@ -2,7 +2,9 @@ import '../styles/level_detail.css';
 import { getToken } from './auth.js';
 import axios from 'axios';
 
-const API_URL = 'http://127.0.0.1:8000'; // No trailing slash here
+// const API_URL = 'http://127.0.0.1:8000'; // No trailing slash here
+const API_URL = 'https://solo-leveling-api-ivory.vercel.app';
+
 
 const levelDetailHtml = `
 <div class="level-detail-container" id="level-detail-container">
